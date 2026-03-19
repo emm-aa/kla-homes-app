@@ -10,12 +10,14 @@ import com.kampalahomes.core.ui.AppStateViewModel
 import com.kampalahomes.app.ui.navigation.startupGraph
 import com.kampalahomes.app.ui.navigation.onboardingGraph
 import com.kampalahomes.app.ui.navigation.mainGraph
+import com.kampalahomes.core.data.repository.PropertyRepository
 
 @Composable
 fun RootNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    appStateViewModel: AppStateViewModel
+    appStateViewModel: AppStateViewModel,
+    propertyRepository: PropertyRepository
 ) {
     NavHost(
         navController = navController,
@@ -24,14 +26,16 @@ fun RootNavGraph(
     ) {
         rootGraph(
             appStateViewModel = appStateViewModel,
-            navController = navController
+            navController = navController,
+            propertyRepository = propertyRepository
         )
     }
 }
 
 fun NavGraphBuilder.rootGraph(
     appStateViewModel: AppStateViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    propertyRepository: PropertyRepository
 ) {
     navigation(
         startDestination = "startup",
@@ -50,6 +54,7 @@ fun NavGraphBuilder.rootGraph(
 
     mainGraph(
         appStateViewModel = appStateViewModel,
-        navController = navController
+        navController = navController,
+        propertyRepository = propertyRepository
     )
 }

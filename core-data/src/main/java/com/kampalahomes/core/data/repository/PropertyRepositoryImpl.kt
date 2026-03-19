@@ -59,12 +59,13 @@ class PropertyRepositoryImpl @Inject constructor() : PropertyRepository {
                 bathrooms = 2,
                 sizeSqft = 1500,
                 neighborhood = "Kololo",
-                amenities = listOf("Parking", "Security", "Water 24/7"),
+                amenities = listOf("Parking", "Security", "Water 24/7", "Generator", "Gym", "Swimming Pool"),
                 images = listOf("https://example.com/image1.jpg"),
                 landlord = "John Doe",
                 latitude = 0.315,
                 longitude = 32.592,
-                propertyType = "Apartment"
+                propertyType = "Apartment",
+                description = "Spacious 3-bedroom apartment in the heart of Kololo. Features modern finishes, ample natural light, and stunning city views. The property includes a master bedroom with en-suite bathroom, a fully equipped kitchen, and a comfortable living area. Located in a secure compound with 24/7 security, backup water supply, and standby generator."
             ),
             Property(
                 id = "2",
@@ -74,12 +75,29 @@ class PropertyRepositoryImpl @Inject constructor() : PropertyRepository {
                 bathrooms = 1,
                 sizeSqft = 600,
                 neighborhood = "Bugolobi",
-                amenities = listOf("Close to Transport"),
+                amenities = listOf("Close to Transport", "Water", "Security"),
                 images = listOf("https://example.com/image2.jpg"),
                 landlord = "Jane Smith",
                 latitude = 0.321,
                 longitude = 32.610,
-                propertyType = "Studio"
+                propertyType = "Studio",
+                description = "Affordable studio apartment perfect for young professionals. Compact yet functional space with a kitchenette and private bathroom. Conveniently located near public transport routes and close to Bugolobi shopping areas."
+            ),
+            Property(
+                id = "3",
+                title = "Luxury Villa in Nakasero",
+                priceUgx = 4800000,
+                bedrooms = 4,
+                bathrooms = 3,
+                sizeSqft = 2800,
+                neighborhood = "Nakasero",
+                amenities = listOf("Parking", "Security", "Garden", "Generator", "Servant Quarters", "DSTV"),
+                images = listOf("https://example.com/image3.jpg"),
+                landlord = "David Musoke",
+                latitude = 0.325,
+                longitude = 32.575,
+                propertyType = "House",
+                description = "Stunning 4-bedroom villa in prestigious Nakasero. Beautifully landscaped garden, modern kitchen with granite countertops, spacious living and dining areas. Features include a master suite with walk-in closet, three guest bedrooms, and servant quarters. Gated compound with ample parking and 24/7 security."
             )
         )
     }

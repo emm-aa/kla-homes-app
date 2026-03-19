@@ -1,11 +1,15 @@
 package com.kampalahomes.app.ui.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -26,6 +30,13 @@ import com.kampalahomes.feature.onboarding.ui.preference_setup.PreferenceSetupSc
 import com.kampalahomes.feature.onboarding.ui.location_access.LocationAccessScreen
 import com.kampalahomes.feature.home.ui.HomeScreen
 import com.kampalahomes.feature.profile.ui.ProfileScreen
+import com.kampalahomes.feature.property.ui.PropertyDetailsScreen
+import com.kampalahomes.core.data.repository.PropertyRepository
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 fun NavGraphBuilder.startupGraph(
     navController: NavHostController,
@@ -81,7 +92,8 @@ fun NavGraphBuilder.onboardingGraph(
 
 fun NavGraphBuilder.mainGraph(
     appStateViewModel: AppStateViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    propertyRepository: PropertyRepository
 ) {
     navigation(
         startDestination = "main_tabs",
@@ -94,11 +106,30 @@ fun NavGraphBuilder.mainGraph(
             )
         }
 
-        composable(route = AppRoute.PropertyDetails.route) {
-            PlaceholderScreen(
-                title = "Property Details",
-                subtitle = "Detailed property view"
-            )
+        composable(
+            route = "${AppRoute.PropertyDetails.route}?propertyId={propertyId}",
+            arguments = listOf(navArgument("propertyId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val propertyId = backStackEntry.arguments?.getString("propertyId")
+            val appState by appStateViewModel.appState.collectAsState()
+            var property by remember { mutableStateOf<com.kampalahomes.core.model.property.Property?>(null) }
+
+            LaunchedEffect(propertyId) {
+                property = propertyId?.let { propertyRepository.getPropertyById(it) }
+            }
+
+            property?.let {
+                PropertyDetailsScreen(
+                    property = it,
+                    navController = navController,
+                    appState = appState
+                )
+            } ?: Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
 
         composable(route = AppRoute.AffordabilityCalculator.route) {
